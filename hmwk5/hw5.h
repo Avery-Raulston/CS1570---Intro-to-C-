@@ -7,7 +7,13 @@
 #ifndef hw5_h
 #define hw5_h
 
-const int NUM_ATTEMPTS = 10;
+const int NUM_ATTEMPTS = 10000;  //Amount of simulations per distance
+const int PERCENTAGE_DECREASE = 5;
+
+//Description: Simulates 10000 walks from home to casino and returns number of times the person makes it to the casino
+//Pre: distance must be positive
+//Post: 10000 walks have been simulated and amount of successes returned
+int simulation(const int distance);
 
 //Description: Simulates 1 walk from home to casino. Returns true if person makes it to the casino, and false if person returns to their home.
 //Pre: dist must be positive
@@ -27,6 +33,6 @@ float calculate_probability(const int successes);
 //Description: Prints result of simulation to the screen
 //Pre: None
 //Post: User is informed of the results of the simulation
-void print_result(const int dist, const int probability);
+void print_result(const int dist, const float probability);
 
 #endif
