@@ -5,6 +5,7 @@
 //////////////////////////////////////////////////////////////
 
 #include "hw6.h"
+#include<iostream>
 #include<cstdlib>
 #include<fstream>
 using namespace std;
@@ -24,7 +25,7 @@ void assign_values(pants pants_array[], const int size)
 
 int get_random_num(const int min, const int max)
 {
-  int random_num = (rand() % (max - min)) + min;//calculates a random number in the range [min, max]
+  int random_num = (rand() % (max - min + 1)) + min;//calculates a random number in the range [min, max]
   return random_num;
 }
 
@@ -90,7 +91,7 @@ void sort_inventory(pants pants_array[], const int size)
     {
       if (pants_array[i].m_waist_measure == pants_array[i+1].m_waist_measure)//make sure to not mix up m_waist_measure order
       {
-        if (pants_array[i].m_inseam > pants_array[i+1].m_inseam)//sort by m_inseam
+        if (pants_array[i].m_inseam < pants_array[i+1].m_inseam)//sort by m_inseam
 	{
   	  temp = pants_array[i];
           pants_array[i] = pants_array[i+1];
@@ -101,4 +102,23 @@ void sort_inventory(pants pants_array[], const int size)
     }
   }
   return;
+}
+
+void print_inventory(const pants pants_array[], const int pants_array_size, const string color_array[])
+{
+  for (int i = 0; i < pants_array_size; i++)//print necessary information of each element in pants_array[]
+  {
+    if ((i == 0) || (pants_array[i].m_waist_measure > pants_array[i-1].m_waist_measure))//if first loop or an increment in m_waist_measure print waist, inseam, and color, otherwise print inseam and color
+      cout<<"waist "<<pants_array[i].m_waist_measure<<"      inseam  "<<pants_array[i].m_inseam<<"  "<<color_array[pants_array[i].m_color];
+    else
+      cout<<"              inseam  "<<pants_array[i].m_inseam<<"  "<<color_array[pants_array[i].m_color];
+    cout<<endl;
+  }
+  return;
+}
+
+int get_customer_color(const int waist_size, const pants_of_size index_array[], const int size)//FIXME figure out how to print color based on waist size without a fuckton of ifs
+{
+  cout<<"For size "<<waist_size<<" we have ";
+
 }

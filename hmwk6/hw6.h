@@ -6,6 +6,7 @@
 
 #ifndef hw6_h
 #define hw5_h
+#include<iostream>
 using namespace std;
 
 const int COLOR_ARRAY_SIZE = 7; //size of string array for pant colors
@@ -56,4 +57,15 @@ void fill_index(const pants pants_array[], const int pants_array_size, pants_of_
 //Pre: None
 //Post: pants_array has been sorted based on m_waist measure first and then on m_inseam
 void sort_inventory(pants pants_array[], const int size);
+
+//Description: prints the pants bart has to the screen
+//Pre: None
+//Post: the pants bart can sell have been printed to the screen
+void print_inventory(const pants pants_array[], const int pants_array_size, const string color_array[]);
+
+//Description: tells the customer what colors bart has of the customers waist size, and returns what color the user chooses
+//Pre: None
+//Post: user has chosen a color of pants for their waist size
+int get_customer_color(const int waist_size, const pants_of_size index_array[], const int size);
+
 #endif
