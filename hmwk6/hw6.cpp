@@ -24,19 +24,21 @@ int main()
 //Set up the arrays and print the pants bart has
   assign_values(barts_pants, NUM_PANTS);
   fill_index(barts_pants, NUM_PANTS, pants_index, MAX_WAIST - MIN_WAIST + 1);
+
   sort_inventory(barts_pants, NUM_PANTS);
   print_inventory(barts_pants, NUM_PANTS, pants_color);  
 
 //Interact with the customers
   while (customer)//loops until customers are gone
+  {
     do//prompt for user waist size until they enter an int in [20, 40]
     {
       cout<<"Enter waist size: ";
       cin>>waist_size;
-      if ((waist_size < 20) || (waist_size > 40))//tell user to leave if bart doesnt have pants to fit them
+      if (not does_waist_size_exist(waist_size, barts_pants, NUM_PANTS))//tell user to leave if bart doesnt have pants to fit them
         cout<<"We don't have that size, go somewhere else to shop"<<endl;
-    }  while ((waist_size < 20) || (waist_size > 40));//FIXME waist size is randomly generated, and may not have every num in [20, 40]
-    pant_color = get_customer_color(waist_size, pants_index, (MAX_WAIST - MIN_WAIST + 1));
-    
+    }  while (not does_waist_size_exist(waist_size, barts_pants, NUM_PANTS));// waist size is randomly generated, and may not have every num in [20, 40], this ensures bart has the waist size the customer wants, and doesnt assume bart has every waist_size in [20, 40]
+//FIXME print_color do while loop goes here
+  }
   return 0;
 }

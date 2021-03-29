@@ -25,7 +25,7 @@ struct pants
 struct pants_of_size
 {
   int m_waist_size; //waist size
-  short m_color_waist_size[]; //how many different colors of pants bart has of m_waist_size
+  short m_color_waist_size[COLOR_ARRAY_SIZE]; //how many different colors of pants bart has of m_waist_size
 };
 
 //Description: assigns values to the member varaibles of the elements in the pants array passed to it
@@ -67,5 +67,10 @@ void print_inventory(const pants pants_array[], const int pants_array_size, cons
 //Pre: None
 //Post: user has chosen a color of pants for their waist size
 int get_customer_color(const int waist_size, const pants_of_size index_array[], const int size);
+
+//Description: returns true if there is at least one element in pants_array with m_waist_measure that is equal to waist_size, returns false otherwise
+//Pre: waist_size must be an integer in [20, 40]
+//Post: tested if waist_size is equal to any elements m_waist_measure in pants_array, and returned true or false accordingly
+bool does_waist_size_exist(const int waist_size, const pants pants_array[], const int size);
 
 #endif

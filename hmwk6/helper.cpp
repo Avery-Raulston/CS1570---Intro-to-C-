@@ -60,9 +60,9 @@ void fill_index(const pants pants_array[], const int pants_array_size, pants_of_
 {
   for (int i = MIN_WAIST; i < index_size; i++)//assign each of index_array elements waist size in index_array with an int from MIN_SIZE to MAX_SIZE such that no sorting is needed later
     index_array[i - MIN_WAIST].m_waist_size = i;
-  
   for (int i = 0; i < pants_array_size; i++)//increments each of index_array elements m_color_waist_size's elements based on each of pants_array's elements m_color
     index_array[pants_array[i].m_waist_measure - MIN_WAIST].m_color_waist_size[pants_array[i].m_color]++;
+  return;
 }
 
 void sort_inventory(pants pants_array[], const int size)
@@ -116,9 +116,44 @@ void print_inventory(const pants pants_array[], const int pants_array_size, cons
   }
   return;
 }
+//FIXME funct needs documentation
+void print_color(const int waist_size, const pants_of_size index_array[], const int size)
+{
+  cout<<"For size "<<waist_size<<" we have: ";
+  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[0] > 1)
+    cout<<"black(enter 0),"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[1] > 1)
+    cout<<"blue(enter 1),"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[2] > 1)
+    cout<<"red(enter 2),"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[3] > 1)
+    cout<<"rainbow(enter 3),"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[4] > 1)
+    cout<<"checkered(enter 4)"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color[1] > 1)
+    cout<<"electric green(enter 5)"<<endl;
+  if (index_array[waist_size - MIN_WAIST].m_color[1] > 1)
+    cout<<"polka dot(enter 6)"<<endl;
+  cout<<"Enter your choice: (-1 for none)"<<endl;
+  return;
+
+}
 
 int get_customer_color(const int waist_size, const pants_of_size index_array[], const int size)//FIXME figure out how to print color based on waist size without a fuckton of ifs
 {
   cout<<"For size "<<waist_size<<" we have ";
-
+  return 1;
 }
+
+bool does_waist_size_exist(const int waist_size, const pants pants_array[], const int size)
+{
+  bool exist = false;//true if waist_size is known to be equal to an elements m_waist_measure in pants_array, false otherwise
+  for (int i = 0; i < size; i++)//walk through pants_array
+  {
+    if (waist_size == pants_array[i].m_waist_measure)//test for waist_size equal to pants_array[i].m_waist_measure
+      exist = true;
+  }
+  return exist;
+}
+
+
