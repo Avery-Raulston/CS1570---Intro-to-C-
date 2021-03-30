@@ -56,9 +56,9 @@ int random_file_num(const int file_length)
   return random_num;
 }
 
-void fill_index(const pants pants_array[], const int pants_array_size, pants_of_size index_array[], const int index_size)
+void fill_index(const pants pants_array[], const int pants_array_size, pants_of_size index_array[])
 {
-  for (int i = MIN_WAIST; i < index_size; i++)//assign each of index_array elements waist size in index_array with an int from MIN_SIZE to MAX_SIZE such that no sorting is needed later
+  for (int i = MIN_WAIST; i <= MAX_WAIST; i++)//assign each of index_array elements waist size in index_array with an int from MIN_SIZE to MAX_SIZE such that no sorting is needed later
     index_array[i - MIN_WAIST].m_waist_size = i;
   for (int i = 0; i < pants_array_size; i++)//increments each of index_array elements m_color_waist_size's elements based on each of pants_array's elements m_color
     index_array[pants_array[i].m_waist_measure - MIN_WAIST].m_color_waist_size[pants_array[i].m_color]++;
@@ -116,33 +116,34 @@ void print_inventory(const pants pants_array[], const int pants_array_size, cons
   }
   return;
 }
-//FIXME funct needs documentation
-void print_color(const int waist_size, const pants_of_size index_array[], const int size)
-{
-  cout<<"For size "<<waist_size<<" we have: ";
-  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[0] > 1)
-    cout<<"black(enter 0),"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[1] > 1)
-    cout<<"blue(enter 1),"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[2] > 1)
-    cout<<"red(enter 2),"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[3] > 1)
-    cout<<"rainbow(enter 3),"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color_waist_size[4] > 1)
-    cout<<"checkered(enter 4)"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color[1] > 1)
-    cout<<"electric green(enter 5)"<<endl;
-  if (index_array[waist_size - MIN_WAIST].m_color[1] > 1)
-    cout<<"polka dot(enter 6)"<<endl;
-  cout<<"Enter your choice: (-1 for none)"<<endl;
-  return;
 
-}
+int get_pants_color(const int waist_size, const pants_of_size index_array[])
+{	
+  int color;//color user wants
+  do//force user to enter valid input	
+  {	  
+    cout<<"For size "<<waist_size<<" we have: "<<endl;;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[0] > 0)//list all colors for waist size. didnt want to use ifs but couldnt find another way
+      cout<<"                     black(enter 0)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[1] > 0)
+      cout<<"                     blue(enter 1)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[2] > 0)
+      cout<<"                     red(enter 2)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[3] > 0)
+      cout<<"                     rainbow(enter 3)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[4] > 0)
+      cout<<"                     checkered(enter 4)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[5] > 0)
+      cout<<"                     electric green(enter 5)"<<endl;
+    if (index_array[waist_size - MIN_WAIST].m_color_waist_size[6] > 0)
+      cout<<"                     polka dot(enter 6)"<<endl;
+    cout<<"Enter your choice: (-1 for none): ";
+    cin>>color;
+    if (!((index_array[waist_size - MIN_WAIST].m_color_waist_size[color] > 0) && (color >= 0) && (color <= (COLOR_ARRAY_SIZE - 1)) || (color == -1 )))//test for valid input
+      cout<<"Please enter a valid number"<<endl;
+  } while (!((index_array[waist_size - MIN_WAIST].m_color_waist_size[color] > 0) && (color >= 0) && (color <= (COLOR_ARRAY_SIZE - 1)) || (color == -1 )));  
+  return color;
 
-int get_customer_color(const int waist_size, const pants_of_size index_array[], const int size)//FIXME figure out how to print color based on waist size without a fuckton of ifs
-{
-  cout<<"For size "<<waist_size<<" we have ";
-  return 1;
 }
 
 bool does_waist_size_exist(const int waist_size, const pants pants_array[], const int size)
@@ -156,4 +157,60 @@ bool does_waist_size_exist(const int waist_size, const pants pants_array[], cons
   return exist;
 }
 
+int get_inseam(const int waist_size, const int pant_color, const pants pants_array[], const int size)
+{
+  bool exist = false;//true if the inseam the user wants exists, false otherwise	
+  int inseam;//inseam user wants	
+  int counter = 0;//how many pants the user will have to choose from	
+  int position = 0;//position that inseam to go to in inseams[]
+  cout<<"For the waist size and color you selected, we have inseam length(s): ";	
+  for (int i = 0; i < size; i++)//search loop for available pants with waist_size and pant_color
+  {
+    if ((pants_array[i].m_waist_measure == waist_size) && (pants_array[i].m_color == pant_color) && pants_array[i].m_available)//increment counter if pant_color and waist_size match up
+    {	    
+      cout<<endl<<"                                                                    "<<pants_array[i].m_inseam;
+      counter++;
+    }    
+  }
+  cout<<endl;
+  int inseams[counter];//array of inseams for user to choose from
+  for (int i = 0; i < size; i++)//search loop for available pants with waist_size and pant_color
+  {
+    if ((pants_array[i].m_waist_measure == waist_size) && (pants_array[i].m_color == pant_color) && pants_array[i].m_available)//add inseam to inseams[] array if pant_color and waist_size match up
+    {
+      inseams[position] = pants_array[i].m_inseam;
+      position++;
+    }
+  }
+  do//force user input to be a valid inseam or -1 for none
+  {
+    cout<<"What inseam length would you like(-1 for none): ";
+    cin>>inseam;
+    for (int i = 0; i < counter; i++)//loop through inseams[]
+    {
+      if ((inseams[i] == inseam) || (inseam == -1))//test valid input
+        exist = true;
+    }       
+    if (! exist)
+      cout<<"Please enter an inseam that we have"<<endl;
+  } while (! exist);
+  return inseam;
+}
 
+void sell_pant(const int waist_size, const int color, const int inseam, pants pants_array[], const int pants_array_size, pants_of_size index_array[])
+{
+  for (int i = 0; i < pants_array_size; i++)//search for pants that has waist_size colo and inseam in pants_array
+  {
+    if (pants_array[i].m_waist_measure == waist_size && pants_array[i].m_color == color && pants_array[i].m_inseam == inseam && pants_array[i].m_available == true)//if pant matches up with other parameters, change availablity to false
+      pants_array[i].m_available = false;
+  }
+  index_array[waist_size - MIN_WAIST].m_color_waist_size[color]--;
+  return;
+}
+
+int calculate_price(const int waist_size, const int inseam)
+{
+  int price;//value to be returned
+  price = (inseam < (HIGH_WATER_STANDARD * waist_size) - 2 ? waist_size + inseam + HIGH_WATER_BONUS : waist_size + inseam);//calculates price based on equation given for hw6
+  return price;
+}
