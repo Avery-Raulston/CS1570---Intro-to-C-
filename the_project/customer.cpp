@@ -9,6 +9,7 @@
 #include<iostream>
 #include<fstream>
 #include "customer.h"
+#include "random.h"
 using namespace std;
 
 Customer::Customer()
@@ -39,4 +40,11 @@ string get_name_from_file()
     counter = 1;
   fin.close();
   return name;
+}
+
+void Customer::eat(const Hawt_dawg & hot_dog)
+{
+  m_cash -= hot_dog.get_cost();
+  m_weight += WEIGHT_GAIN_FROM_DAWG;
+  return;
 }
