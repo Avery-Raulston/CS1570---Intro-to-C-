@@ -19,6 +19,7 @@ Customer::Customer()
   m_health = get_random_num(MIN_HEALTH, MAX_HEALTH);
   m_weight = get_random_num(MIN_WEIGHT, MAX_WEIGHT);
   m_is_alive = true;
+  m_is_contestant = true;
 }
 
 string get_name_from_file()
@@ -42,9 +43,9 @@ string get_name_from_file()
   return name;
 }
 
-void Customer::eat(const Hawt_dawg & hot_dog)
+void Customer::eat(const Hawt_dawg & h)
 {
-  m_cash -= hot_dog.get_cost();
+  m_cash -= h.get_cost();
   m_weight += WEIGHT_GAIN_FROM_DAWG;
   return;
 }

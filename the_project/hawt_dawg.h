@@ -3,7 +3,7 @@
 //Professor: Price
 //File: hawt_dawg.h
 //Description: this file is the header file for the hawt_dawg.cpp file
-//Date last edited: Apr 6, 2021
+//Date last edited: Apr 15, 2021
 /////////////////////////////////////////////////////////////////////////
 
 #ifndef hawt_dawg_h
@@ -34,15 +34,45 @@ const float CHEESE_COST = .5;
 //      value in the range [0, 4], m_is_relish and m_is_relish have a 50% chance
 //      of being true, and m_is_pathogen has a 10% chance of being true
 
-//Name: friend ostream & operator <<(ostream & os, const Hawt_dawg & hot_dog)
-//Description: this function overloads the insertion operator
+//Name: get_animals()
+//Description: getter function for m_num_animals
 //Pre: None
-//Post: the insertion operator has been defined for the Hawt_dawg class
+//Post: m_num_animals has been returned
+
+//Name: get_onions()
+//Description: getter function for m_onion_ounces
+//Pre: None
+//Post: m_onion_ounces has been returned
+
+//Name: get_pickles()
+//Description: getter function for m_num_pickles
+//Pre: None
+//Post: m_num_pickles has been returned
+
+//Name: get_relish()
+//Description: getter function for m_is_relish
+//Pre: None
+//Post: m_is_relish has been returned
+
+//Name: get_cheese()
+//Description: getter function for m_is_cheese
+//Pre: None
+//Post: m_is_cheese has been returned
+
+//Name: get_pathogen()
+//Description: getter function for m_is_pathogen
+//Pre: None
+//Post: m_is_pathogen has been returned
 
 //Name: get_cost()
 //Description: getter function for m_cost
 //Pre: None
 //Post: m_cost has been returned
+
+//Name: friend ostream & operator <<(ostream & os, const Hawt_dawg & hot_dog)
+//Description: this function overloads the insertion operator
+//Pre: None
+//Post: the insertion operator has been defined for the Hawt_dawg class
 
 class Hawt_dawg
 {
@@ -57,8 +87,14 @@ class Hawt_dawg
   public:
     Hawt_dawg(const int animals, const int onions, const int pickles, bool relish, bool cheese, bool pathogen);
     Hawt_dawg();
+    int get_animals()const{return m_num_animals;}
+    int get_onions()const{return m_onion_ounces;}
+    int get_pickles()const{return m_num_pickles;}
+    bool get_relish()const{return m_is_relish;}
+    bool get_cheese()const{return m_is_cheese;}
+    bool get_pathogen()const{return m_is_pathogen;}
     float get_cost()const{return m_cost;}
-    friend ostream & operator <<(ostream & os, const Hawt_dawg & hot_dog);
+    friend ostream & operator <<(ostream & os, const Hawt_dawg & h);
 };
 
 #endif

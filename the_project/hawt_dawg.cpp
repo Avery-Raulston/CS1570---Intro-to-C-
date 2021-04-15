@@ -3,7 +3,7 @@
 //Professor: Price
 //File: hawt_dawg.cpp
 //Description: this file contains the Hawt_dawg class for main.cpp
-//Date last edited: Apr 5, 2021
+//Date last edited: Apr 15, 2021
 /////////////////////////////////////////////////////////////////////
 
 #include<iostream>
@@ -34,10 +34,17 @@ Hawt_dawg::Hawt_dawg()
   m_cost = (BREAD_COST + (ANIMAL_COST * m_num_animals) + (ONION_COST * m_onion_ounces) + (PICKLE_COST * m_num_pickles) + (RELISH_COST * m_is_relish) + (CHEESE_COST * m_is_cheese));//formula for cost of hawt_dawg
 }
 
-//FIXME
-/*ostream & operator <<(ostream & os, const Hawt_dawg & hot_dog)
+ostream & operator <<(ostream & os, const Hawt_dawg & h)
 {
-  os<<
+  string relish = h.get_relish() ? "relish" : "no relish";
+  string cheese = h.get_cheese() ? "cheese" : "no cheese";
+  string pathogen = h.get_pathogen() ? "pathogen" : "no pathogen";
+  os<<"The hawt_dawg has: "<<h.get_animals()<< "animals"<<endl;
+  os<<"                   "<<h.get_onions()<<"ounces of onions"<<endl;
+  os<<"                   "<<h.get_pickles()<<"pickles"<<endl;
+  os<<"                   "<<relish<<endl;
+  os<<"                   "<<cheese<<endl;
+  os<<"                   "<<pathogen<<endl;
   return os;
-}*/
+}
 
