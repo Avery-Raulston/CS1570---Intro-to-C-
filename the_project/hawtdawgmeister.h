@@ -9,6 +9,8 @@
 #ifndef hawtdawgmeister_h
 #define hawtdawgmeister_h
 
+const float CLETUS_STARTING_MONEY = 0;
+
 //Name: Hawtdawgmeister
 //Description: constructor for Hawtdawgmeister class
 //Pre: None

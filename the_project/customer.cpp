@@ -40,6 +40,7 @@ string get_name_from_file()
   if (fin.eof())//reset counter if last name in file has been read in
     counter = 1;
   fin.close();
+  cout<<name<<endl;
   return name;
 }
 
@@ -49,3 +50,27 @@ void Customer::eat(const Hawt_dawg & h)
   m_weight += WEIGHT_GAIN_FROM_DAWG;
   return;
 }
+
+void Customer::vomit()
+{
+  m_health /= 2;//halve health
+  if (m_health == 0)//if health goes to zero, they die
+    dies();
+  return;
+}
+
+void Customer::print_vomit()
+{
+  string barf_noise = get_random_barf_noise();//noise contestant makes when they vomit
+  string second_barf_noise = get_random_barf_noise();//noise contestant makes when they vomit
+  cout<<"    "<<m_name<<" barfs "<<barf_noise<<" "<<second_barf_noise<<endl;
+  
+  return;
+}
+
+string get_random_barf_noise()
+{
+  int position = get_random_num(0, NUM_BARF_NOISES - 1);
+  return BARF_NOISES[position];
+}
+

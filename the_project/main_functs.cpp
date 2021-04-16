@@ -8,25 +8,50 @@
 
 #include<cstdlib>
 
-bool simulate_round(Customer[], const int size)
+#include "main.h"
+#include "customer.h"
+#include "hawt_dawg.h"
+#include "hawtdawgmeister.h"
+#include "random.h"
+
+bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cletus)
 {
-  for (int i = 0; i < size, i++)//loop through Customer array, feeding each Customer a hawt_dawg, if they can eat it
+  bool contest = true;//true if contest is still going, false otherwise
+  bool does_vomit = false;//true if customer vomits, false otherwise
+  for (int i = 0; i < size; i++)//loop through Customer array, feeding each Customer a hawt_dawg, if they can eat it
   { 
     Hawt_dawg hot_dog;//get a new random dawg for every customer
-    if (can_customer_eat(Customer[i], hot_dog)//if customer can eat the dawg, feed the customer the dawg
-      feed_customer(Customer[i], hot_dog)
+    if (can_customer_eat(contestants[i], hot_dog));//if customer can eat the dawg, feed the customer the dawg //FIXME if statement always true
+    {
+      does_vomit = feed_customer(contestants[i], hot_dog);
+      cletus += hot_dog.get_cost();
+    }
   }
   return contest;
 }
 
 bool can_customer_eat(const Customer & c, const Hawt_dawg & h)
 {
-  return ((c.m_is_alive) && (c.m_get_cash >= h.get_cost) && (c.m_is_contestant))
+  return ((c.get_alive()) && (c.get_cash() >= h.get_cost()) && (c.get_contestant()));
 }
 
-void feed_customer(Customer & c, const Hawt_dawg & h)
+bool feed_customer(Customer & c, const Hawt_dawg & h)
 {
+  bool does_vomit = false;//true if customer vomits, false otherwise
+  int chance_of_death;
   c.eat(h);
-
-  return;
+cout<<"hi"<<endl;
+  if (h.get_pathogen())//test for pathogen in hawt_dawg
+  {
+    chance_of_death = get_random_num(1, 100);
+    if (chance_of_death > c.get_health())//if chance of death > customers health, customer dies. else, customer vomits
+      c.dies();
+    else
+    {
+      c.vomit();
+      c.print_vomit();
+      does_vomit = true;
+    }
+  }
+  return does_vomit;
 }

@@ -10,13 +10,15 @@
 #define main_h
 
 #include "customer.h"
+#include "hawtdawgmeister.h"
+
 const int NUM_CONTESTANTS = 15;
 
 //Description: simulation for one round hawt dawg eating contest
 //Pre: None
 //Post: one round of the hawt dawg eating contest has been simulated, returns 
 //      true if contest is still going, returns fals otherwise
-bool simulate_round(Customer[], const int size);
+bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cletus);
 
 //Desription: tests if customer can eat a hawt_dawg
 //Pre: None
@@ -25,7 +27,8 @@ bool can_customer_eat(const Customer & c, const Hawt_dawg & h);
 
 //Description: simulates feed a customer a hawt_dawg and their reaction to it
 //Pre: None
-//Post: customer eating a hawt_dawg and their reaction to it has been simulated
-void feed_customer(Customer & c, const Hawt_dawg & h);
+//Post: customer eating a hawt_dawg and their reaction to it has been simulated,
+//      returns true if customer vomits, false otherwise
+bool feed_customer(Customer & c, const Hawt_dawg & h);
 
 #endif

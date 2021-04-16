@@ -19,6 +19,9 @@ const int MIN_HEALTH = 1; 	    //min health customer can start with
 const int MAX_HEALTH = 100;    	    //max health customer can start with
 const int MIN_WEIGHT = 75;          //min weight customer can start with
 const int MAX_WEIGHT = 300;         //max weight customer can start with
+const int NUM_BARF_NOISES = 10;     //number of barf noises
+const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", "STREISAND!", "UGGGGHHH", "AAACCKKKK", "BLUHHHHH!", "BOUGGHHH", "UUURRKKKKK", "JOHNNN"};//barf noises that contestants make when they barf
+
 
 //Name: Customer()
 //Description: default constructor for Customer class
@@ -45,6 +48,31 @@ const int MAX_WEIGHT = 300;         //max weight customer can start with
 //Pre: None
 //Post: m_is_alive has been returned
 
+//Name: get_health()
+//Description: getter function for m_health
+//Pre: None
+//Post: m_health has been returned
+
+//Name: get_constestant
+//Description: getter function for m_is_contestant
+//Pre: None
+//Post: m_is_contestant has been returned
+
+//Name: dies()
+//Description: simulates customer dying
+//Pre: None
+//Post: m_health is set to 0, and m_is_alive is set to false
+
+//Name: vomit()
+//Description: simulates a customer vomting
+//Pre: None
+//Post: customer vomiting has been simulated, and their health has been halved
+
+//Name: print_vomit()
+//Description: prints the person vomiting to the screen
+//Pre: None
+//Post: it has been printed to the screen that the person vomited
+
 class Customer
 {
   private:
@@ -57,8 +85,13 @@ class Customer
   public:
     Customer();
     void eat(const Hawt_dawg & h);
-    float get_cash(){return m_cash;}
-    bool get_alive(){return m_is_alive;}
+    float get_cash()const{return m_cash;}
+    bool get_alive()const{return m_is_alive;}
+    short get_health()const{return m_health;}
+    bool get_contestant()const{return m_is_contestant;}
+    void dies(){m_health = 0; m_is_alive = false; return;}
+    void vomit();
+    void print_vomit();
 };
 
 //Description: returns a string from names.dat based on how many times this
@@ -67,5 +100,10 @@ class Customer
 //Post: string has been returned from names.dat based on how many times this
 //	function has been called
 string get_name_from_file();
+
+//Description: returns a random string from BARF_NOISES
+//Pre: None
+//Post: a random string from BARF_NOISES has been returned
+string get_random_barf_noise();
 
 #endif
