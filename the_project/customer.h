@@ -58,6 +58,11 @@ const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", 
 //Pre: None
 //Post: m_is_contestant has been returned
 
+//Name: get_name
+//Description getter function for m_name
+//Pre: None
+//Post: m_name has been returned
+
 //Name: dies()
 //Description: simulates customer dying
 //Pre: None
@@ -89,6 +94,7 @@ class Customer
     bool get_alive()const{return m_is_alive;}
     short get_health()const{return m_health;}
     bool get_contestant()const{return m_is_contestant;}
+    string get_name()const{return m_name;}
     void dies(){m_health = 0; m_is_alive = false; return;}
     void vomit();
     void print_vomit();
