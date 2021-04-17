@@ -12,7 +12,7 @@
 #include "customer.h"
 #include "hawtdawgmeister.h"
 
-const int NUM_CONTESTANTS = 15;
+const int NUM_CONTESTANTS = 15; //Number of contestants in the eating contest
 
 //Description: simulation for one round hawt dawg eating contest
 //Pre: None
@@ -30,5 +30,11 @@ bool can_customer_eat(const Customer & c, const Hawt_dawg & h);
 //Post: customer eating a hawt_dawg and their reaction to it has been simulated,
 //      returns true if customer vomits, false otherwise
 bool feed_customer(Customer & c, const Hawt_dawg & h);
+
+//Description: simulates reaction to someone vomiting, calls food_fight() function
+//             if someone doesn't vomit
+//Pre: starting_point must be in the range [0, size]
+//Post: reactions to someone vomiting has been simulated
+void vomit_reactions(Customer contestants[], const int size, const int starting_point, Hawtdawgmeister & cletus);
 
 #endif

@@ -18,12 +18,11 @@ using namespace std;
 
 int main()
 {
+  srand(time(NULL));
 //Variables
   Customer contestants[NUM_CONTESTANTS];//contestants in the eating contest
   bool contest = true; //true while eating contest is going on, false otherwise
   Hawtdawgmeister cletus("cletus", CLETUS_STARTING_MONEY);
-
-  srand(time(NULL));
 
   while (contest)//simulate rounds of eating contest until contest ends
     contest = simulate_round(contestants, NUM_CONTESTANTS, cletus);

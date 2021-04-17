@@ -21,10 +21,12 @@ bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cl
   for (int i = 0; i < size; i++)//loop through Customer array, feeding each Customer a hawt_dawg, if they can eat it
   { 
     Hawt_dawg hot_dog;//get a new random dawg for every customer
-    if (can_customer_eat(contestants[i], hot_dog));//if customer can eat the dawg, feed the customer the dawg //FIXME if statement always true
+    if (can_customer_eat(contestants[i], hot_dog))//if customer can eat the dawg, feed the customer the dawg
     {
       does_vomit = feed_customer(contestants[i], hot_dog);
       cletus += hot_dog.get_cost();
+      if (does_vomit)//if cutomer vomits, walk down and up array until no one vomits or end of array is hit
+        simulate_reactions(contestants[], size, i, cletus);
     }
   }
   return contest;
@@ -40,7 +42,6 @@ bool feed_customer(Customer & c, const Hawt_dawg & h)
   bool does_vomit = false;//true if customer vomits, false otherwise
   int chance_of_death;
   c.eat(h);
-cout<<"hi"<<endl;
   if (h.get_pathogen())//test for pathogen in hawt_dawg
   {
     chance_of_death = get_random_num(1, 100);
@@ -54,4 +55,9 @@ cout<<"hi"<<endl;
     }
   }
   return does_vomit;
+}
+
+void vomit_reactions(Customer contestants[], const int size, const int starting_point, Hawtdawgmeister & cletus)
+{
+  return;
 }

@@ -70,7 +70,7 @@ void Customer::print_vomit()
 
 string get_random_barf_noise()
 {
-  int position = get_random_num(0, NUM_BARF_NOISES - 1);
+  int position = get_random_num(0, NUM_BARF_NOISES - 1);//position in BARF_NOISES to be returned
   return BARF_NOISES[position];
 }
 
