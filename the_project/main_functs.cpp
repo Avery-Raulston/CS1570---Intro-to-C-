@@ -62,7 +62,8 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
   int i = starting_point + 1;//position in contestants [] array
   int chance_to_vomit;//liklihood of customer vomiting
   int chance_to_fight;//liklihood of cuustomer starting a food fight
-  while (contestants[i].get_alive() && i < size)//walk down array, testing if contestant throws up or starts a food fight
+  bool did_vomit = true;//true if contestants vomited, false otherwise
+  while (contestants[i].get_alive() && i < size && did_vomit)//walk down array, testing if contestant throws up or starts a food fight
   {
     chance_to_vomit = get_random_num(1, 100);
     chance_to_fight = get_random_num(1, 100);
@@ -70,15 +71,21 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
     { 
       contestants[i].vomit();
       contestants[i].print_vomit();
-    }   
+    } 
+    else
+    {
+      did_vomit = false;  
+      cout<<"        "<<contestants[i].get_name()<<" doesn't vomit"<<endl;
+    }
     i++;
   }
-  cout<<"    "<<contestants[i].get_name()<<" doesn't barf"<<endl;
+  i--;
   if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight after vomiting ends)
     food_fight(contestants, size, i, cletus);
   
   i = starting_point - 1;
-  while (contestants[i].get_alive() && i >= 0)//walk up array, testing if contestant throws up or starts a food fight
+  did_vomit = true;
+  while (contestants[i].get_alive() && i >= 0 && did_vomit)//walk up array, testing if contestant throws up or starts a food fight
   {
     chance_to_vomit = get_random_num(1, 100);
     chance_to_fight = get_random_num(1, 100);
@@ -87,9 +94,14 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
       contestants[i].vomit();
       contestants[i].print_vomit();
     }
+    else
+    {
+      did_vomit = false;
+      cout<<"        "<<contestants[i].get_name()<<" doesn't vomit"<<endl;
+    }
     i--;
   }
-  cout<<"    "<<contestants[i].get_name()<<" doesn't barf"<<endl;
+  i++;
   if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())
     food_fight(contestants, size, i, cletus);
   return;
@@ -98,28 +110,30 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
 void food_fight(Customer contestants[], const int size, const int starting_point, Hawtdawgmeister & cletus)
 {
   int i = starting_point;//position in array
-  int target = get_random_num(0, (size + 1));//target of thrown hawt_dawg
+  int target;//target of thrown hawt_dawg
   int continue_chance; //chance food fight will continue
   bool thrown = false;//true if dawg was thrown, false otherwise
   do
   {
-    Hawt_dawg h;//hot dawg to be thrown
-    if (contestants[i].get_cash <= h.get_cost() && contestants[target].get_alive())//if contestant can afford the dawg, and taget is alive, then (s)he throws the dawg
+    target = get_random_num(1, NUM_CONTESTANTS);
+    Hawt_dawg h;//hawt_dawg to be thrown
+    if (contestants[i].get_cash() < h.get_cost())//if contestant cant afford dog, print it
     {
-      contestants[i].throws_dawg(contestants, size, i, cletus, h);
-      thrown = true;
-    }
+      cout<<"        "<<contestants[i].get_name()<<" can't afford to throw a dawg"<<endl;
+      thrown = false;
+    }   
     else
     {
-      thrown = false;
-      if (! contestants[target].get_alive())//if target is dead, print it
-        cout<<"        "<<contestants[i].get_name()<<" doesn't throw the hawt dawg at "<<contestants[target].get_name()<<" because "<<contestants[target].get_name()<<" is dead"<<endl;
-    }
-    continue_chance = get_random_num(1, 100);
-    i = target;
-    target = get_random_num(1, 100);
-    if (continue_chance > CONTINUE_FOOD_FIGHT_CHANCE)//if target decides not to throw, print it
-      cout<<"        "<<contestants[i].get_name()<<" decides not to throw a dawg"<<endl;
+      if (target == size + 1)//if target is cletus, cletus gets angry, otherwise, proceed as normal
+        cletus.anger(contestants[i]);
+      else
+      {
+        contestants[i].throws_dawg(contestants[target], h);
+        thrown = true;
+        continue_chance = get_random_num(1, 100);
+        i = target;
+      }
+    }  
   } while ((target != (size + 1)) && (continue_chance <= CONTINUE_FOOD_FIGHT_CHANCE) && (thrown) && contestants[target].get_alive());//throw dawgs until food_fight ends
   return;
 }

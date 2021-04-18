@@ -74,3 +74,10 @@ string get_random_barf_noise()
   return BARF_NOISES[position];
 }
 
+void Customer::throws_dawg(Customer & c, Hawt_dawg & h)
+{
+  m_cash -= h.get_cost();
+  m_health += 2;
+  cout<<"        "<<m_name<<" tosses dawg at "<<c.m_name<<endl;
+  return;
+}

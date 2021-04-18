@@ -26,6 +26,11 @@ const float CLETUS_STARTING_MONEY = 0;
 //Pre: None
 //Post: the -= operator has been define for the Hawtdawgmeister class
 
+//Name: anger
+//Description: simulates cletus getting angry
+//Pre: None
+//Post: cletus getting angry has been simulated
+
 class Hawtdawgmeister
 {
   private: 
@@ -35,6 +40,7 @@ class Hawtdawgmeister
     Hawtdawgmeister(const string name, const float money): m_name(name), m_money(money){}
     float operator +=(const float money){return m_money += money;}
     float operator -=(const float money){return m_money -= money;}
+    void anger(Customer & c);
 };
 
 #endif

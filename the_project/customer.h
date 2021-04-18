@@ -59,9 +59,14 @@ const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", 
 //Post: m_is_contestant has been returned
 
 //Name: get_name
-//Description getter function for m_name
+//Description: getter function for m_name
 //Pre: None
 //Post: m_name has been returned
+
+//Name: set_cash
+//Description: setter function for m_cash
+//Pre: None
+//Post: m_cash is set to the value passed to the function 
 
 //Name: dies()
 //Description: simulates customer dying
@@ -77,6 +82,11 @@ const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", 
 //Description: prints the person vomiting to the screen
 //Pre: None
 //Post: it has been printed to the screen that the person vomited
+
+//Name: throws_dawg
+//Description: simulates a customer throwing a hawt dawg
+//Pre: position must be in the range [0, size - 1]
+//Post: customer throwing a dawg has been simulated
 
 class Customer
 {
@@ -95,9 +105,12 @@ class Customer
     short get_health()const{return m_health;}
     bool get_contestant()const{return m_is_contestant;}
     string get_name()const{return m_name;}
+    void set_cash(const int money){m_cash = money; return;}
+    void set_contestant(const bool value){m_is_contestant = value; return;}
     void dies(){m_health = 0; m_is_alive = false; return;}
     void vomit();
     void print_vomit();
+    void throws_dawg(Customer & c, Hawt_dawg & h);
 };
 
 //Description: returns a string from names.dat based on how many times this
