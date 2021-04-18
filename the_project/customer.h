@@ -63,6 +63,11 @@ const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", 
 //Pre: None
 //Post: m_name has been returned
 
+//Name: get_weight
+//Description: getter function for m_weight
+//Pre: None
+//Post: m_weight has been returned
+
 //Name: set_cash
 //Description: setter function for m_cash
 //Pre: None
@@ -88,6 +93,11 @@ const string BARF_NOISES[NUM_BARF_NOISES] = {"GAGGGG!", "BLAHHCCCH", "BARBARA", 
 //Pre: position must be in the range [0, size - 1]
 //Post: customer throwing a dawg has been simulated
 
+//Name: friend os & operator<<
+//Description: overloads the insertion operator for the Customer class
+//Pre: None
+//Post: the insertion operator has been defined for the Customer class
+
 class Customer
 {
   private:
@@ -105,12 +115,14 @@ class Customer
     short get_health()const{return m_health;}
     bool get_contestant()const{return m_is_contestant;}
     string get_name()const{return m_name;}
+    int get_weight()const{return m_weight;}
     void set_cash(const int money){m_cash = money; return;}
     void set_contestant(const bool value){m_is_contestant = value; return;}
     void dies(){m_health = 0; m_is_alive = false; return;}
     void vomit();
     void print_vomit();
     void throws_dawg(Customer & c, Hawt_dawg & h);
+    friend os & operator <<(ostream & os, const Customer & c);
 };
 
 //Description: returns a string from names.dat based on how many times this

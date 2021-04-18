@@ -16,6 +16,8 @@
 
 bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cletus)
 {
+  static int num_rounds = 1;//number of rounds held so far
+  cout<<endl<<"------------------------ ROUND #"<<num_rounds<<" ------------------------"<<endl<<endl;
   bool contest = true;//true if contest is still going, false otherwise
   bool does_vomit = false;//true if customer vomits, false otherwise
   for (int i = 0; i < size; i++)//loop through Customer array, feeding each Customer a hawt_dawg, if they can eat it
@@ -29,6 +31,7 @@ bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cl
         vomit_reactions(contestants, size, i, cletus);
     }
   }
+  num_rounds++;
   return contest;
 }
 
@@ -46,14 +49,19 @@ bool feed_customer(Customer & c, const Hawt_dawg & h)
   {
     chance_of_death = get_random_num(1, 100);
     if (chance_of_death > c.get_health())//if chance of death > customers health, customer dies. else, customer vomits
+    {
       c.dies();
+      cout<<"    "<<c.get_name()<<" eats a dawg wt "<<c.get_weight()<<", health value "<<c.get_health()<<" ... DEAD"<<endl;
+    }
     else
     {
       c.vomit();
-      c.print_vomit();
+      cout<<"    "<<c.get_name()<<" eats a dawg wt "<<c.get_weight()<<", health value "<<c.get_health()<<" ... ALIVE and barfs!"<<endl;
       does_vomit = true;
     }
   }
+  else
+    cout<<"    "<<c.get_name()<<" eats a dawg wt "<<c.get_weight()<<", health value "<<c.get_health()<<" ... ALIVE"<<endl;
   return does_vomit;
 }
 
@@ -63,7 +71,7 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
   int chance_to_vomit;//liklihood of customer vomiting
   int chance_to_fight;//liklihood of cuustomer starting a food fight
   bool did_vomit = true;//true if contestants vomited, false otherwise
-  while (contestants[i].get_alive() && i < size && did_vomit)//walk down array, testing if contestant throws up or starts a food fight
+  while (contestants[i].get_alive() && i < size && did_vomit)//walk down array, testing if contestant throws up
   {
     chance_to_vomit = get_random_num(1, 100);
     chance_to_fight = get_random_num(1, 100);
@@ -80,12 +88,14 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
     i++;
   }
   i--;
-  if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight after vomiting ends)
-    food_fight(contestants, size, i, cletus);
-  
+  if (starting_point + 1 < size && contestants[starting_point + 1].get_alive())//if loop above was entered, test for food fight
+  {
+    if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight
+      food_fight(contestants, size, i, cletus);
+  }
   i = starting_point - 1;
   did_vomit = true;
-  while (contestants[i].get_alive() && i >= 0 && did_vomit)//walk up array, testing if contestant throws up or starts a food fight
+  while (contestants[i].get_alive() && i >= 0 && did_vomit)//walk up array, testing if contestant throws up
   {
     chance_to_vomit = get_random_num(1, 100);
     chance_to_fight = get_random_num(1, 100);
@@ -102,8 +112,11 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
     i--;
   }
   i++;
-  if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())
-    food_fight(contestants, size, i, cletus);
+  if (starting_point - 1 >= 0 && contestants[starting_point - 1].get_alive())//if above loop was enetered, check for food fight
+  {
+    if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight
+      food_fight(contestants, size, i, cletus);
+  }
   return;
 }
 
@@ -115,16 +128,16 @@ void food_fight(Customer contestants[], const int size, const int starting_point
   bool thrown = false;//true if dawg was thrown, false otherwise
   do
   {
-    target = get_random_num(1, NUM_CONTESTANTS);
+    target = get_random_num(0, size);
     Hawt_dawg h;//hawt_dawg to be thrown
     if (contestants[i].get_cash() < h.get_cost())//if contestant cant afford dog, print it
     {
-      cout<<"        "<<contestants[i].get_name()<<" can't afford to throw a dawg"<<endl;
+      cout<<"            "<<contestants[i].get_name()<<" can't afford to throw a dawg"<<endl;
       thrown = false;
     }   
     else
     {
-      if (target == size + 1)//if target is cletus, cletus gets angry, otherwise, proceed as normal
+      if (target == size)//if target is cletus, cletus gets angry, otherwise, proceed as normal
         cletus.anger(contestants[i]);
       else
       {

@@ -24,6 +24,11 @@ int main()
   bool contest = true; //true while eating contest is going on, false otherwise
   Hawtdawgmeister cletus("cletus", CLETUS_STARTING_MONEY);
 
+  cout<<"Begin the Contest!!!"<<endl<<endl;
+  cout<<"The Contestants are"<<endl<<endl;
+  for (int i = 0; i < NUM_CONTESTANTS; i++)
+    cout<<contestants[i]<<endl;
+
   while (contest)//simulate rounds of eating contest until contest ends
     contest = simulate_round(contestants, NUM_CONTESTANTS, cletus);
   return 0;
