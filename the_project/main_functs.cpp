@@ -18,21 +18,22 @@ bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cl
 {
   static int num_rounds = 1;//number of rounds held so far
   cout<<endl<<"------------------------ ROUND #"<<num_rounds<<" ------------------------"<<endl<<endl;
-  bool contest = true;//true if contest is still going, false otherwise
   bool does_vomit = false;//true if customer vomits, false otherwise
+  bool has_eaten = false;//true if someone is known to have eaten a dawg, false otherwise
   for (int i = 0; i < size; i++)//loop through Customer array, feeding each Customer a hawt_dawg, if they can eat it
   { 
     Hawt_dawg hot_dog;//get a new random dawg for every customer
     if (can_customer_eat(contestants[i], hot_dog))//if customer can eat the dawg, feed the customer the dawg
     {
       does_vomit = feed_customer(contestants[i], hot_dog);
+      has_eaten = true;
       cletus += hot_dog.get_cost();
       if (does_vomit)//if cutomer vomits, walk down and up array until no one vomits or end of array is hit
         vomit_reactions(contestants, size, i, cletus);
     }
   }
   num_rounds++;
-  return contest;
+  return has_eaten;
 }
 
 bool can_customer_eat(const Customer & c, const Hawt_dawg & h)
@@ -45,7 +46,12 @@ bool feed_customer(Customer & c, const Hawt_dawg & h)
   bool does_vomit = false;//true if customer vomits, false otherwise
   int chance_of_death;//liklihood customer dies
   c.eat(h);
-  if (h.get_pathogen())//test for pathogen in hawt_dawg
+  if (c.get_health() <= 0)//test if customer dies from eating dawg
+  {
+    c.dies();
+    cout<<"    "<<c.get_name()<<" eats a dawg wt "<<c.get_weight()<<", health value "<<c.get_health()<<" ... DEAD"<<endl;
+  }
+  else if (h.get_pathogen())//test for pathogen in hawt_dawg
   {
     chance_of_death = get_random_num(1, 100);
     if (chance_of_death > c.get_health())//if chance of death > customers health, customer dies. else, customer vomits
@@ -79,15 +85,14 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
     { 
       contestants[i].vomit();
       contestants[i].print_vomit();
+      i++;
     } 
     else
     {
       did_vomit = false;  
       cout<<"        "<<contestants[i].get_name()<<" doesn't vomit"<<endl;
     }
-    i++;
   }
-  i--;
   if (starting_point + 1 < size && contestants[starting_point + 1].get_alive())//if loop above was entered, test for food fight
   {
     if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight
@@ -103,15 +108,14 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
     {
       contestants[i].vomit();
       contestants[i].print_vomit();
+      i--;
     }
     else
     {
       did_vomit = false;
       cout<<"        "<<contestants[i].get_name()<<" doesn't vomit"<<endl;
     }
-    i--;
   }
-  i++;
   if (starting_point - 1 >= 0 && contestants[starting_point - 1].get_alive())//if above loop was enetered, check for food fight
   {
     if (chance_to_fight <= START_FOOD_FIGHT_CHANCE && contestants[i].get_alive())//test for food fight
@@ -148,5 +152,40 @@ void food_fight(Customer contestants[], const int size, const int starting_point
       }
     }  
   } while ((target != (size + 1)) && (continue_chance <= CONTINUE_FOOD_FIGHT_CHANCE) && (thrown) && contestants[target].get_alive());//throw dawgs until food_fight ends
+  return;
+}
+
+void print_winner(const Customer contestants[], const int size, const Hawtdawgmeister & cletus)
+{
+  Customer winners[size];//winners of the contest. technically could be all of them, however unlikely that is, so I made a big array
+  int num_winners = 1;//number of winners, defaulted to 1
+  winners[0] = contestants[0];
+  for (int i =1 ; i < size; i++)//loop through contestants, adding winners to winners[] array
+  {
+    if (contestants[i].get_alive() && contestants[i].get_contestant())//test if contestants is alive and not dq'ed
+    {
+      if (contestants[i].get_health() > winners[0].get_health())//if contestants health is > winners health, contestants is new winner
+      {
+        winners[0] = contestants[i];
+	num_winners = 1;
+      }
+      else if (contestants[i].get_health() == winners[0].get_health())//if contestants health == winners health, both are winners
+      {
+        winners[num_winners] = contestants[i];
+	num_winners++;
+      }
+    }
+  }
+  
+  if (num_winners == 1)//if one winner, print winner
+    cout<<"The winner is: "<<winners[0]<<endl;
+  else if (num_winners > 1)//if multiple winners, print all winners
+  {
+    cout<<"The winners are: "<<endl;
+    for (int i = 0; i < num_winners; i++)//loop through winners array, printing winners
+      cout<<"    "<<winners[i]<<endl;
+  }
+  else
+    cout<<"The winner is: Cletus"<<endl;
   return;
 }

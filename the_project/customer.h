@@ -122,7 +122,7 @@ class Customer
     void vomit();
     void print_vomit();
     void throws_dawg(Customer & c, Hawt_dawg & h);
-    friend os & operator <<(ostream & os, const Customer & c);
+    friend ostream & operator <<(ostream & os, const Customer & c);
 };
 
 //Description: returns a string from names.dat based on how many times this

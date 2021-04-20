@@ -19,8 +19,8 @@ const int CONTINUE_FOOD_FIGHT_CHANCE = 80;//percentage chance that a contestant 
 
 //Description: simulation for one round hawt dawg eating contest
 //Pre: None
-//Post: one round of the hawt dawg eating contest has been simulated, returns 
-//      true if contest is still going, returns fals otherwise
+//Post: one round of the hawt dawg eating contest has been simulated, returns true
+//      if contest is still going, false otherwise
 bool simulate_round(Customer contestants[], const int size, Hawtdawgmeister & cletus);
 
 //Desription: tests if customer can eat a hawt_dawg
@@ -44,5 +44,10 @@ void vomit_reactions(Customer contestants[], const int size, const int starting_
 //Pre: starting_point must be in the range [0, size - 1]
 //Post: food fight has been simulated
 void food_fight(Customer contestants[], const int size, const int starting_point, Hawtdawgmeister & cletus);
+
+//Description: finds and prints the winner of the contest
+//Pre: None
+//Post: winner has been found and printed
+void print_winner(const Customer contestants[], const int size, const Hawtdawgmeister & cletus);
 
 #endif

@@ -19,17 +19,29 @@ using namespace std;
 int main()
 {
   srand(time(NULL));
+
 //Variables
   Customer contestants[NUM_CONTESTANTS];//contestants in the eating contest
-  bool contest = true; //true while eating contest is going on, false otherwise
-  Hawtdawgmeister cletus("cletus", CLETUS_STARTING_MONEY);
+  bool is_contest_going = true;//true while contest is going, false otherwise
+  Hawtdawgmeister cletus("cletus", CLETUS_STARTING_MONEY);//the man who runs it all, Cletus
 
+//Magic Code
+  cout.setf(ios::fixed); 
+  cout.setf(ios::showpoint); 
+  cout.precision(2);
+
+//Greeting  
   cout<<"Begin the Contest!!!"<<endl<<endl;
   cout<<"The Contestants are"<<endl<<endl;
-  for (int i = 0; i < NUM_CONTESTANTS; i++)
-    cout<<contestants[i]<<endl;
+  for (int i = 0; i < NUM_CONTESTANTS; i++)//print all of the contestants and their info
+    cout<<"    "<<contestants[i]<<endl;
 
-  while (contest)//simulate rounds of eating contest until contest ends
-    contest = simulate_round(contestants, NUM_CONTESTANTS, cletus);
+//Simulate Contest
+  while (is_contest_going)//simulate rounds of eating contest until a winner has been declared
+    is_contest_going = simulate_round(contestants, NUM_CONTESTANTS, cletus);
+  cout<<"    No one ate anything! The contest is over!"<<endl<<endl;
+
+//Declare winner and end program
+  print_winner(contestants, NUM_CONTESTANTS, cletus);
   return 0;
 }

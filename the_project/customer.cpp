@@ -47,6 +47,7 @@ void Customer::eat(const Hawt_dawg & h)
 {
   m_cash -= h.get_cost();
   m_weight += WEIGHT_GAIN_FROM_DAWG;
+  m_health -= 2;
   return;
 }
 
@@ -83,6 +84,6 @@ void Customer::throws_dawg(Customer & c, Hawt_dawg & h)
 
 ostream & operator <<(ostream & os, const Customer & c)
 {
-  os<<"    "<<c.get_name()<<" weighs "<<c.get_weight()<<" lbs, has a health value of "<<c.get_health()<<", and has "<<c.get_cash()<<" dollars"<<endl;
+  os<<c.m_name<<" who weighs "<<c.m_weight<<" lbs, has a health value of "<<c.m_health<<", and has "<<c.m_cash<<" dollars";
   return os;
 }
