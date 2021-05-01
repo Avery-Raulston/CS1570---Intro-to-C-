@@ -37,3 +37,50 @@ skware :: ~skware()
   delete[] m_row_totals;
   delete[] m_col_totals;
 }
+
+skware :: skware(const skware & source)
+{
+  m_size = source.m_size;
+  m_row_totals = new short[m_size];
+  m_col_totals = new short[m_size];
+  m_matrix = new short *[m_size];
+  for (int i = 0; i < m_size; i++)//loop from 0 to m_size - 1, filling arrays
+  {
+    m_row_totals[i] = source.m_row_totals[i];
+    m_col_totals[i] = source.m_col_totals[i];
+    for (int j = 0; i < m_size; i++)//loop through each array in matrix, filling the arrays 
+      m_matrix[i][j] = source.m_matrix[i][j];
+  }
+}
+
+skware skware :: operator =(const skware & s)
+{
+  if ((*this) != s)
+    (*this) = s;
+  return *this;
+}
+
+bool skware :: operator ==(const skware & s)
+{
+  bool test = true;//object to be returned. true until there is a difference found between the calling object and s
+  if (m_size == s.m_size)//if the size of the two arrays dont match, then we dont need to loop through the matrix
+  {
+    for (int i = 0; i < m_size; i++)//loop through m_matrix
+    {
+      for (int j = 0; i < m_size; i++)//loop through m_matrix[i]
+      {
+        if (m_matrix[i][j] != m_matrix[i][j])
+          test = false;
+      }
+    }
+  }
+  else
+    test = false;
+
+  return test;
+}
+
+bool skware :: operator !=(const skware & s)
+{
+  return !((*this) == s);
+}

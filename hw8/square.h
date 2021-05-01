@@ -16,7 +16,7 @@ const short MAX_NUM = 7;//max number each cell can be filled with
 
 using namespace std;
 
-//Name: skware
+//Name: skware(const short s)
 //Description: constructor for skware class
 //Pre: s must be positive
 //Post: an object of class skware has been created
@@ -26,11 +26,26 @@ using namespace std;
 //Pre: None
 //Post: an object of class skware has been destructed
 
+//Name: skware(const skware & source)
+//Description: copy constructor for skware class
+//Pre: None
+//Post: an object of type skware has been created as a copy of an existing skware
+
 //Name: skware operator =
 //Description: copy assignment for skware class
 //Pre: None
 //Post: an object of class skware has been created and is a copy of a preexisting
 //      object of class skware
+
+//Name: skware operator ==
+//Description: overloads the == operator for the skware class
+//Pre: None
+//Post: the == operator has been defined for the skware class
+
+//Name: skware operator !=
+//Description: overloads the != operator for the skware class
+//Pre: None
+//Post: the != operator has been defined for the skware class
 
 class skware
 {
@@ -42,7 +57,10 @@ class skware
   public: 
     skware(const short s); 
     ~skware();
+    skware(const skware & source);
     skware operator =(const skware & source);
+    bool operator ==(const skware & s);
+    bool operator !=(const skware & s);
 
 };
 
