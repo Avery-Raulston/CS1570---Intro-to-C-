@@ -36,11 +36,13 @@ int main()
       if (size_of_board < MIN_SIZE || size_of_board > MAX_SIZE)//if user doesnt give correct input, tell the user he/she is WRONG
         cout<<"WRONG!!"<<endl;
     }  while (size_of_board < MIN_SIZE || size_of_board > MAX_SIZE);
-    skware board = size_of_board;
-    skware soln = board;
+    board = size_of_board;
+//    soln = board;
     cout<<"Would you like to solve another maigc_skware?(1 for yes, 0 for no) ";
     cin>>is_playing;
   }
+  board.~skware();
+  soln.~skware();
 
 //Signing off Statement
  cout<<"BUH-BYE!"<<endl;  

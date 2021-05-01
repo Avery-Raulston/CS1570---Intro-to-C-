@@ -32,22 +32,29 @@ skware :: skware(const short s)
 skware :: ~skware()
 {
   for (int i = 0; i < m_size; i++)
+  {
     delete[] m_matrix[i];
+    m_matrix[i] = nullptr;
+  }
   delete[] m_matrix;
   delete[] m_row_totals;
   delete[] m_col_totals;
+  m_matrix = nullptr;
+  m_row_totals = nullptr;
+  m_col_totals = nullptr;
 }
 
 skware :: skware(const skware & source)
 {
   m_size = source.m_size;
-  m_row_totals = new short[m_size];
-  m_col_totals = new short[m_size];
-  m_matrix = new short *[m_size];
+  m_row_totals = new short [m_size];
+  m_col_totals = new short [m_size];
+  m_matrix = new short * [m_size];
   for (int i = 0; i < m_size; i++)//loop from 0 to m_size - 1, filling arrays
   {
     m_row_totals[i] = source.m_row_totals[i];
     m_col_totals[i] = source.m_col_totals[i];
+    m_matrix[i] = new short [m_size];
     for (int j = 0; i < m_size; i++)//loop through each array in matrix, filling the arrays 
       m_matrix[i][j] = source.m_matrix[i][j];
   }
@@ -56,7 +63,31 @@ skware :: skware(const skware & source)
 skware skware :: operator =(const skware & s)
 {
   if ((*this) != s)
-    (*this) = s;
+  {
+    m_size = s.m_size;
+    delete[] m_row_totals;
+    m_row_totals = nullptr;
+    delete[] m_col_totals;
+    m_col_totals = nullptr;
+    for (int i = 0; i < m_size; i++)//loop through matrix, deleteing each array
+    {
+      delete[] m_matrix[i];
+      m_matrix[i] = nullptr;
+    }
+    delete[] m_matrix;
+    m_matrix = nullptr;
+    m_row_totals = new short [m_size];
+    m_col_totals = new short [m_size];
+    m_matrix = new short * [m_size];
+    for (int i = 0; i < m_size; i++)//loop through matrix, row_totals, and col_totals, filling them
+    {
+      m_row_totals[i] = s.m_row_totals[i];
+      m_col_totals[i] = s.m_col_totals[i];
+      m_matrix[i] = new short [m_size];
+      for (int j = 0; j< m_size; j++)//loop through matrix[i], filling it
+        m_matrix[i][j] = s.m_matrix[i][j];
+    }
+  }
   return *this;
 }
 
