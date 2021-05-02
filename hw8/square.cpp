@@ -27,6 +27,7 @@ skware :: skware(const short s)
       m_col_totals[j] += m_matrix[i][j];
     }
   }
+cout<<"short constructor called"<<endl;
 }
 
 skware :: ~skware()
@@ -120,19 +121,22 @@ bool skware :: operator !=(const skware & s)
   return !((*this) == s);
 }
 
-void skware :: display_puzzle()const
+void skware :: display_puzzle()
 {
   short rand_row;//row part of cell to be replaced
   short rand_col;//col part of cell to be replaced
   for (int i = 0; i < REPLACEMENT_NUM; i++)//replace REPLACEMENT_NUM number of positions with -1
   {
-    rand_row = rand() % m_size;
-    rand_col = rand() % m_size;
+    do//ensure that a different cell is replaced each time
+    {
+      rand_row = rand() % m_size;
+      rand_col = rand() % m_size;
+    } while (m_matrix[rand_row][rand_col] == -1);
     m_matrix[rand_row][rand_col] = -1;
   }
   for (int i = 0; i < m_size; i++)//loop through m_matrix to print each array
   {
-    for (int k = 0; k < (m_size * CELL_SIZE) + CELL_SIZE; k++)//making output look pretty
+    for (int k = 0; k < ((m_size * CELL_SIZE) + CELL_SIZE + 1); k++)//making output look pretty
       cout<<"-";
     cout<<"-"<<endl<<"|";
 
@@ -149,8 +153,47 @@ void skware :: display_puzzle()const
       cout<<"  "<<m_row_totals[i]<<" |";
     cout<<endl;
   }
-  for (int i = 0; i < (m_size * CELL_SIZE) + CELL_SIZE + 1; i++)//making output look pretty
+  for (int i = 0; i < ((m_size * CELL_SIZE) + CELL_SIZE + 1); i++)//more pretty output
     cout<<"-";
+  cout<<"-"<<endl<<"|";
+  for (int i = 0; i < m_size; i++)//still making output look pretty
+  {
+    if (m_col_totals[i] >= 10)
+      cout<<" "<<m_col_totals[i]<<"|";
+    else
+      cout<<" "<<m_col_totals[i]<<" |";
+  }
   cout<<endl;
+  for (int i = 0; i < (m_size * CELL_SIZE); i++)// even more making output look pretty
+    cout<<"-";
+  cout<<"-";
+  cout<<endl;
+  
+  return;
+}
+
+void skware :: solve()
+{
+  short positions[REPLACEMENT_NUM][2];//positions of empty cells in matrix
+  short filled = 0;//how many arrays in positions has been filled
+
+  for (int row = 0; row < m_size; row++)//loop through matrix
+  {
+    for (int col = 0; col < m_size; col++)//loop through matrix[row] to find position of empty cells
+    {
+      if (m_matrix[row][col] == -1)//if cell is empty, add it to positions
+      {
+        positions[filled][0] = row;
+	positions[filled][1] = col;
+	filled++;
+      }
+    }
+  }
+  for (int i = 0; i < 5; i++)
+  {
+    for (int j = 0; j < 2; j++)
+	    cout<<positions[i][j]<<" ";
+    cout<<endl;
+  }
   return;
 }

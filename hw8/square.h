@@ -57,6 +57,11 @@ using namespace std;
 //Post: 5 positions in m_matrix has been replaced with -1 and m_matrix has been
 //      outputted to the screen
 
+//Name: void solve()
+//Description: solves puzzle and then calls display_puzzle()
+//Pre: 5 positions in m_matrix must be -1
+//Post: board has been solved and display_puzzle() has been called
+
 class skware
 {
   private: 
@@ -71,8 +76,8 @@ class skware
     skware & operator =(const skware & source);
     bool operator ==(const skware & s);
     bool operator !=(const skware & s);
-    void display_puzzle()const;
-
+    void display_puzzle();
+    void solve();
 };
 
 #endif

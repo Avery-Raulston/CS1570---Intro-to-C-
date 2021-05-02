@@ -18,8 +18,10 @@ int main()
 //Variables
   short size_of_board;//size of rows and columns for board
   bool is_playing = true;//true until user says they dont want to play a puzzle
+  bool want_solution = false;//false until user says they want a solution to the puzzle displayed for them
   skware board = 3;//skware for user to solve
   skware soln = board;
+
 //Greeting
   cout<<"Welcome to the magic_skware puzzle giver!"<<endl;
   cout<<"Would you like to solve a magic_skware?(1 for yes, 0 for no) ";
@@ -31,7 +33,7 @@ int main()
     do //loop until user gives a value in [MAX_SIZE, MIN_SIZE]
     {
       cout<<"How big would you like your skware to be?"<<endl;
-      cout<<"Please enter a number in the range [6, 10]";
+      cout<<"Please enter a number in the range [6, 10]: ";
       cin>>size_of_board;
       if (size_of_board < MIN_SIZE || size_of_board > MAX_SIZE)//if user doesnt give correct input, tell the user he/she is WRONG
         cout<<"WRONG!!"<<endl;
@@ -39,6 +41,15 @@ int main()
     skware board = size_of_board;
     soln = board;
     board.display_puzzle();
+    cout<<"Here's your puzzle....solve it if you can!"<<endl;
+    do//force user to say they want a solution
+    {
+      cout<<"Wanna solution?(1 for yes): ";
+      cin>>want_solution;
+      if (!want_solution)
+        cout<<"WRONG!!!"<<endl;
+    } while (!want_solution);
+    board.solve();
     cout<<"Would you like to solve another magic_skware?(1 for yes, 0 for no) ";
     cin>>is_playing;
   }
