@@ -3,7 +3,7 @@
 //Professor: Price
 //File: square.cpp
 //Description: this file contains the helper functions for the skware class
-//Date Last Edited: Apr 28, 2021
+//Date Last Edited: May 2, 2021
 //////////////////////////////////////////////////////////////
 
 #include<iostream>
@@ -132,21 +132,25 @@ void skware :: display_puzzle()const
   }
   for (int i = 0; i < m_size; i++)//loop through m_matrix to print each array
   {
-    for (int k = 0; k < (m_size * CELL_SIZE); k++)
+    for (int k = 0; k < (m_size * CELL_SIZE) + CELL_SIZE; k++)//making output look pretty
       cout<<"-";
     cout<<"-"<<endl<<"|";
+
     for (int j = 0; j < m_size; j++)//loop through matrix[i], printing each element
     {
-      if (m_matrix[i][j] == -1)
+      if (m_matrix[i][j] == -1)//if cell is -1, dont print it
         cout<<"   |";
       else
         cout<<" "<<m_matrix[i][j]<<" |";
     }
-    cout<<" "<<m_row_totals[i]<<" |";
+    if (m_row_totals[i] >= 10)//more making output look pretty
+      cout<<" "<<m_row_totals[i]<<" |";
+    else
+      cout<<"  "<<m_row_totals[i]<<" |";
     cout<<endl;
   }
-  for (int i = 0; i < (m_size * CELL_SIZE); i++)
+  for (int i = 0; i < (m_size * CELL_SIZE) + CELL_SIZE + 1; i++)//making output look pretty
     cout<<"-";
-  cout<<"-"<<endl;
+  cout<<endl;
   return;
 }
