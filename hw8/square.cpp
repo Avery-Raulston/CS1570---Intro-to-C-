@@ -15,10 +15,10 @@ skware :: skware(const short s)
 {
   m_size = s;
   m_matrix = new short * [s];//matrix pts to an array of ptrs to shorts and is s long
-  m_row_totals = new short [s];//row_totals pts to an array of shorts and is s long
-  m_col_totals = new short [s];//col_totals pts to an array of shorts and is s long
+  m_row_totals = new short [s]{0};//row_totals pts to an array of shorts and is s long
+  m_col_totals = new short [s]{0};//col_totals pts to an array of shorts and is s long
   for (int i = 0; i < s; i++)//loop through matrix, creating and filling it
-  {  
+  {
     m_matrix[i] = new short [s];
     for (int j = 0; j < s; j ++)//loop through matrix[i], filling it with random shorts
     {
@@ -55,16 +55,18 @@ skware :: skware(const skware & source)
     m_row_totals[i] = source.m_row_totals[i];
     m_col_totals[i] = source.m_col_totals[i];
     m_matrix[i] = new short [m_size];
-    for (int j = 0; i < m_size; i++)//loop through each array in matrix, filling the arrays 
+    for (int j = 0; j < m_size; j++)//loop through each array in matrix, filling the arrays 
+    {
       m_matrix[i][j] = source.m_matrix[i][j];
+    }
   }
+  cout<<"copy constructor called"<<endl;
 }
 
-skware skware :: operator =(const skware & s)
+skware & skware :: operator =(const skware & s)
 {
   if ((*this) != s)
   {
-    m_size = s.m_size;
     delete[] m_row_totals;
     m_row_totals = nullptr;
     delete[] m_col_totals;
@@ -76,6 +78,7 @@ skware skware :: operator =(const skware & s)
     }
     delete[] m_matrix;
     m_matrix = nullptr;
+    m_size = s.m_size;
     m_row_totals = new short [m_size];
     m_col_totals = new short [m_size];
     m_matrix = new short * [m_size];
@@ -88,6 +91,7 @@ skware skware :: operator =(const skware & s)
         m_matrix[i][j] = s.m_matrix[i][j];
     }
   }
+  cout<<"copy assignment called"<<endl;
   return *this;
 }
 
@@ -114,4 +118,35 @@ bool skware :: operator ==(const skware & s)
 bool skware :: operator !=(const skware & s)
 {
   return !((*this) == s);
+}
+
+void skware :: display_puzzle()const
+{
+  short rand_row;//row part of cell to be replaced
+  short rand_col;//col part of cell to be replaced
+  for (int i = 0; i < REPLACEMENT_NUM; i++)//replace REPLACEMENT_NUM number of positions with -1
+  {
+    rand_row = rand() % m_size;
+    rand_col = rand() % m_size;
+    m_matrix[rand_row][rand_col] = -1;
+  }
+  for (int i = 0; i < m_size; i++)//loop through m_matrix to print each array
+  {
+    for (int k = 0; k < (m_size * CELL_SIZE); k++)
+      cout<<"-";
+    cout<<"-"<<endl<<"|";
+    for (int j = 0; j < m_size; j++)//loop through matrix[i], printing each element
+    {
+      if (m_matrix[i][j] == -1)
+        cout<<"   |";
+      else
+        cout<<" "<<m_matrix[i][j]<<" |";
+    }
+    cout<<" "<<m_row_totals[i]<<" |";
+    cout<<endl;
+  }
+  for (int i = 0; i < (m_size * CELL_SIZE); i++)
+    cout<<"-";
+  cout<<"-"<<endl;
+  return;
 }

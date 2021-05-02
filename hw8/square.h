@@ -13,6 +13,9 @@ const short MAX_SIZE = 10;//max size of skware
 const short MIN_SIZE = 6;//min size of skware
 const short MIN_NUM = 1;//min number each cell can be filled with
 const short MAX_NUM = 7;//max number each cell can be filled with
+const short REPLACEMENT_NUM = 5;//number of cells in m_matrix to be replaced 
+                                //with -1
+const short CELL_SIZE = 4;//size of cell displayed in display_puzzle
 
 using namespace std;
 
@@ -47,6 +50,13 @@ using namespace std;
 //Pre: None
 //Post: the != operator has been defined for the skware class
 
+//Name: void display_puzzle()
+//Description: randomly chooses 5 positions in m_matrix and replaces them with -1
+//             and outputs m_matrix to screen with blanks where the -1's are
+//Pre: None
+//Post: 5 positions in m_matrix has been replaced with -1 and m_matrix has been
+//      outputted to the screen
+
 class skware
 {
   private: 
@@ -58,9 +68,10 @@ class skware
     skware(const short s); 
     ~skware();
     skware(const skware & source);
-    skware operator =(const skware & source);
+    skware & operator =(const skware & source);
     bool operator ==(const skware & s);
     bool operator !=(const skware & s);
+    void display_puzzle()const;
 
 };
 
