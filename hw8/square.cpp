@@ -61,7 +61,6 @@ skware :: skware(const skware & source)
       m_matrix[i][j] = source.m_matrix[i][j];
     }
   }
-  cout<<"copy constructor called"<<endl;
 }
 
 skware & skware :: operator =(const skware & s)
@@ -174,26 +173,74 @@ void skware :: display_puzzle()
 
 void skware :: solve()
 {
-  short positions[REPLACEMENT_NUM][2];//positions of empty cells in matrix
-  short filled = 0;//how many arrays in positions has been filled
+  short solve1;//holds solution to first empty cell
+  short solve2;//holds solution to second empty cell
+  short solve3;//holds solution to third empty cell
+  short solve4;//holds solution to fourth empty cell
+  short solve5;//holds solution to fifth empty cell
 
-  for (int row = 0; row < m_size; row++)//loop through matrix
+  for (short a = MIN_NUM; a <= MAX_NUM; a++)
   {
-    for (int col = 0; col < m_size; col++)//loop through matrix[row] to find position of empty cells
+    for (short b = MIN_NUM; b <= MAX_NUM; b++)
     {
-      if (m_matrix[row][col] == -1)//if cell is empty, add it to positions
+      for (short c = MIN_NUM; c <= MAX_NUM; c++)
       {
-        positions[filled][0] = row;
-	positions[filled][1] = col;
-	filled++;
+        for (short d = MIN_NUM; d <= MAX_NUM; d++)
+	{
+          for (short e = MIN_NUM; e <= MAX_NUM; e++)
+	  {
+             if (is_solved(a, b, c, d, e))
+               {
+                 solve1 = a;
+		 solve2 = b;
+		 solve3 = c;
+		 solve4 = d;
+		 solve5 = e;
+	       }
+	  }
+	}
       }
     }
   }
-  for (int i = 0; i < 5; i++)
-  {
-    for (int j = 0; j < 2; j++)
-	    cout<<positions[i][j]<<" ";
-    cout<<endl;
-  }
   return;
+}
+
+bool skware :: is_solved(short a, short b, short c, short d, short e)const
+{
+  skware temp = *this;
+  bool test = false;//value to be returned. false until puzzle has been proven to be true
+  short counter = 0;//how many times an empty cell has been tested
+  for (int i = 0; i < m_size; i++)
+  {
+    temp.m_row_totals[i] = 0;
+    temp.m_col_totals[i] = 0;
+  }
+  for (int row = 0; row < temp.m_size; row++)//loop through matrix
+  {
+    for (int col = 0; col < temp.m_size; col++)//loop through matrix[row]
+    {
+      if (temp.m_matrix[row][col] == -1)//if empty cell is found, fill it
+      {
+        switch (counter)//decide which variable to enter into cell
+	{
+          case 0:
+            m_matrix[row][col] = a;
+	  case 1:
+	    m_matrix[row][col] = b;
+	  case 2:
+	    m_matrix[row][col] = c;
+	  case 3:
+	    m_matrix[row][col] = d;
+	  case 4:
+	    m_matrix[row][col] = e;
+	}
+	counter++;
+      }
+      temp.m_row_totals[row] += temp.m_matrix[row][col];
+      temp.m_col_totals[col] += temp.m_matrix[row][col];
+    } 
+  }
+  if (temp == (*this))
+    test = true;
+  return test;
 }

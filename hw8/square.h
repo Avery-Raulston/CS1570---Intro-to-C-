@@ -62,6 +62,11 @@ using namespace std;
 //Pre: 5 positions in m_matrix must be -1
 //Post: board has been solved and display_puzzle() has been called
 
+//Name: bool is_solved
+//Description: tests if puzzle is solved with given parameters
+//Pre: puzzle must have 5 cells equal to -1
+//Post: returned true if puzzle is solved, false otherwise 
+
 class skware
 {
   private: 
@@ -78,6 +83,7 @@ class skware
     bool operator !=(const skware & s);
     void display_puzzle();
     void solve();
+    bool is_solved(short a, short b, short c, short d, short e)const;
 };
 
 #endif
