@@ -67,6 +67,11 @@ using namespace std;
 //Pre: puzzle must have 5 cells equal to -1
 //Post: returned true if puzzle is solved, false otherwise 
 
+//Name: ostream & operator <<
+//Description: overloads insertion operator for skware class
+//Pre: None
+//Post: insertion operator has been defined for the skware class
+
 class skware
 {
   private: 
@@ -83,7 +88,8 @@ class skware
     bool operator !=(const skware & s);
     void display_puzzle();
     void solve();
-    bool is_solved(short a, short b, short c, short d, short e)const;
+    bool is_solved(const short a, const short b, const short c, const short d, const short e)const;
+    friend ostream & operator <<(ostream & os, const skware & source);
 };
 
 #endif

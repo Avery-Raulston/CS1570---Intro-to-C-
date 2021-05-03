@@ -20,7 +20,7 @@ int main()
   bool is_playing = true;//true until user says they dont want to play a puzzle
   bool want_solution = false;//false until user says they want a solution to the puzzle displayed for them
   skware board = 3;//skware for user to solve
-  skware soln = board;
+  skware soln = board;//copy of board
 
 //Greeting
   cout<<"Welcome to the magic_skware puzzle giver!"<<endl;
@@ -46,7 +46,7 @@ int main()
     {
       cout<<"Wanna solution?(1 for yes): ";
       cin>>want_solution;
-      if (!want_solution)
+      if (!want_solution)//if user doesnt want a solution, tell them they do
         cout<<"WRONG!!!"<<endl;
     } while (!want_solution);
     board.solve();

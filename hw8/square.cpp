@@ -102,9 +102,9 @@ bool skware :: operator ==(const skware & s)
   {
     for (int i = 0; i < m_size; i++)//loop through m_matrix
     {
-      for (int j = 0; i < m_size; i++)//loop through m_matrix[i]
+      for (int j = 0; j < m_size; j++)//loop through m_matrix[i]
       {
-        if (m_matrix[i][j] != m_matrix[i][j])
+        if (m_matrix[i][j] != s.m_matrix[i][j])
           test = false;
       }
     }
@@ -133,41 +133,7 @@ void skware :: display_puzzle()
     } while (m_matrix[rand_row][rand_col] == -1);
     m_matrix[rand_row][rand_col] = -1;
   }
-  for (int i = 0; i < m_size; i++)//loop through m_matrix to print each array
-  {
-    for (int k = 0; k < ((m_size * CELL_SIZE) + CELL_SIZE + 1); k++)//making output look pretty
-      cout<<"-";
-    cout<<"-"<<endl<<"|";
-
-    for (int j = 0; j < m_size; j++)//loop through matrix[i], printing each element
-    {
-      if (m_matrix[i][j] == -1)//if cell is -1, dont print it
-        cout<<"   |";
-      else
-        cout<<" "<<m_matrix[i][j]<<" |";
-    }
-    if (m_row_totals[i] >= 10)//more making output look pretty
-      cout<<" "<<m_row_totals[i]<<" |";
-    else
-      cout<<"  "<<m_row_totals[i]<<" |";
-    cout<<endl;
-  }
-  for (int i = 0; i < ((m_size * CELL_SIZE) + CELL_SIZE + 1); i++)//more pretty output
-    cout<<"-";
-  cout<<"-"<<endl<<"|";
-  for (int i = 0; i < m_size; i++)//still making output look pretty
-  {
-    if (m_col_totals[i] >= 10)
-      cout<<" "<<m_col_totals[i]<<"|";
-    else
-      cout<<" "<<m_col_totals[i]<<" |";
-  }
-  cout<<endl;
-  for (int i = 0; i < (m_size * CELL_SIZE); i++)// even more making output look pretty
-    cout<<"-";
-  cout<<"-";
-  cout<<endl;
-  
+  cout<<(*this);
   return;
 }
 
@@ -178,16 +144,17 @@ void skware :: solve()
   short solve3;//holds solution to third empty cell
   short solve4;//holds solution to fourth empty cell
   short solve5;//holds solution to fifth empty cell
+  short counter = 0;//how many times empty cell has been filled
 
-  for (short a = MIN_NUM; a <= MAX_NUM; a++)
+  for (short a = MIN_NUM; a <= MAX_NUM; a++)//loop through all possibilities for a
   {
-    for (short b = MIN_NUM; b <= MAX_NUM; b++)
+    for (short b = MIN_NUM; b <= MAX_NUM; b++)//loop through all possibilities for b
     {
-      for (short c = MIN_NUM; c <= MAX_NUM; c++)
+      for (short c = MIN_NUM; c <= MAX_NUM; c++)///loop through all possibilities for c
       {
-        for (short d = MIN_NUM; d <= MAX_NUM; d++)
+        for (short d = MIN_NUM; d <= MAX_NUM; d++)///loop through all possibilities for d
 	{
-          for (short e = MIN_NUM; e <= MAX_NUM; e++)
+          for (short e = MIN_NUM; e <= MAX_NUM; e++)///loop through all possibilities for e
 	  {
              if (is_solved(a, b, c, d, e))
                {
@@ -202,15 +169,39 @@ void skware :: solve()
       }
     }
   }
+  for (int row = 0; row < m_size; row++)//loop through m_matrix
+  {
+    for (int col = 0; col < m_size; col++)//loop through m_matrix[row]
+    {
+      if (m_matrix[row][col] == -1)//if cell is empty, fill it
+      {
+        switch (counter)//decide which variable to enter into cell
+        {
+          case 0:
+            m_matrix[row][col] = solve1;
+          case 1:
+            m_matrix[row][col] = solve2;
+          case 2:
+            m_matrix[row][col] = solve3;
+          case 3:
+            m_matrix[row][col] = solve4;
+          case 4:
+            m_matrix[row][col] = solve5;
+        }
+        counter++;
+      }
+    }
+  }
+  cout<<(*this);
   return;
 }
 
-bool skware :: is_solved(short a, short b, short c, short d, short e)const
+bool skware :: is_solved(const short a, const short b, const short c, const short d, const short e)const
 {
   skware temp = *this;
   bool test = false;//value to be returned. false until puzzle has been proven to be true
   short counter = 0;//how many times an empty cell has been tested
-  for (int i = 0; i < m_size; i++)
+  for (int i = 0; i < m_size; i++)//set all values of temps row and col totals to 0
   {
     temp.m_row_totals[i] = 0;
     temp.m_col_totals[i] = 0;
@@ -240,7 +231,52 @@ bool skware :: is_solved(short a, short b, short c, short d, short e)const
       temp.m_col_totals[col] += temp.m_matrix[row][col];
     } 
   }
-  if (temp == (*this))
-    test = true;
+  for (int i = 0; i < m_size; i++)//loop through m_col and m_row totals
+  {
+    if (temp.m_row_totals[i] != m_row_totals[i] || temp.m_col_totals[i] != m_col_totals[i])//if totals arent equal, puzzle isnt solved
+      test = false;
+  }
+  cout<<temp;
   return test;
+}
+
+ostream & operator <<(ostream & os, const skware & source)
+{
+  for (int i = 0; i < source.m_size; i++)//loop through m_matrix to print each array
+  {
+    for (int k = 0; k < ((source.m_size * CELL_SIZE) + CELL_SIZE + 1); k++)//making output look pretty
+      os<<"-";
+    os<<"-"<<endl<<"|";
+
+    for (int j = 0; j < source.m_size; j++)//loop through matrix[i], printing each element
+    {
+      if (source.m_matrix[i][j] == -1)//if cell is -1, dont print it
+        os<<"   |";
+      else
+        os<<" "<<source.m_matrix[i][j]<<" |";
+    }
+    if (source.m_row_totals[i] >= 10)//more making output look pretty
+      os<<" "<<source.m_row_totals[i]<<" |";
+    else
+      os<<"  "<<source.m_row_totals[i]<<" |";
+    os<<endl;
+  }
+  for (int i = 0; i < ((source.m_size * CELL_SIZE) + CELL_SIZE + 1); i++)//more pretty output
+    os<<"-";
+  os<<"-"<<endl<<"|";
+  for (int i = 0; i < source.m_size; i++)//still making output look pretty
+  {
+    if (source.m_col_totals[i] >= 10)
+      os<<" "<<source.m_col_totals[i]<<"|";
+    else
+      os<<" "<<source.m_col_totals[i]<<" |";
+  }
+
+  os<<endl;
+  for (int i = 0; i < (source.m_size * CELL_SIZE); i++)// even more making output look pretty
+    os<<"-";
+  os<<"-";
+  os<<endl;
+
+  return os;
 }
