@@ -111,7 +111,6 @@ bool skware :: operator ==(const skware & s)
   }
   else
     test = false;
-
   return test;
 }
 
@@ -139,11 +138,11 @@ void skware :: display_puzzle()
 
 void skware :: solve()
 {
-  short solve1;//holds solution to first empty cell
-  short solve2;//holds solution to second empty cell
-  short solve3;//holds solution to third empty cell
-  short solve4;//holds solution to fourth empty cell
-  short solve5;//holds solution to fifth empty cell
+  short solve1 = -1;//holds solution to first empty cell
+  short solve2 = -1;//holds solution to second empty cell
+  short solve3 = -1;//holds solution to third empty cell
+  short solve4 = -1;//holds solution to fourth empty cell
+  short solve5 = -1;//holds solution to fifth empty cell
   short counter = 0;//how many times empty cell has been filled
 
   for (short a = MIN_NUM; a <= MAX_NUM; a++)//loop through all possibilities for a
@@ -178,13 +177,25 @@ void skware :: solve()
         switch (counter)//decide which variable to enter into cell
         {
           case 0:
+          {
             m_matrix[row][col] = solve1;
+	    break;
+	  }
           case 1:
+	  {
             m_matrix[row][col] = solve2;
+	    break;
+	  }
           case 2:
+	  {
             m_matrix[row][col] = solve3;
+	    break;
+	  }
           case 3:
+	  {
             m_matrix[row][col] = solve4;
+            break;
+	  }
           case 4:
             m_matrix[row][col] = solve5;
         }
@@ -198,8 +209,8 @@ void skware :: solve()
 
 bool skware :: is_solved(const short a, const short b, const short c, const short d, const short e)const
 {
-  skware temp = *this;
-  bool test = false;//value to be returned. false until puzzle has been proven to be true
+  skware temp = (*this);
+  bool test = true;//value to be returned. true until puzzle has been proven to be false
   short counter = 0;//how many times an empty cell has been tested
   for (int i = 0; i < m_size; i++)//set all values of temps row and col totals to 0
   {
@@ -215,15 +226,30 @@ bool skware :: is_solved(const short a, const short b, const short c, const shor
         switch (counter)//decide which variable to enter into cell
 	{
           case 0:
-            m_matrix[row][col] = a;
+          {
+            temp.m_matrix[row][col] = a;
+	    break;
+          }
 	  case 1:
-	    m_matrix[row][col] = b;
+	  {
+	    temp.m_matrix[row][col] = b;
+	    break;
+	  }
 	  case 2:
-	    m_matrix[row][col] = c;
+	  {
+	    temp.m_matrix[row][col] = c;
+	    break;
+	  }
 	  case 3:
-	    m_matrix[row][col] = d;
+	  {
+	    temp.m_matrix[row][col] = d;
+	    break;
+	  }
 	  case 4:
-	    m_matrix[row][col] = e;
+	  {
+	    temp.m_matrix[row][col] = e;
+	    break;
+	  }
 	}
 	counter++;
       }
@@ -231,12 +257,13 @@ bool skware :: is_solved(const short a, const short b, const short c, const shor
       temp.m_col_totals[col] += temp.m_matrix[row][col];
     } 
   }
-  for (int i = 0; i < m_size; i++)//loop through m_col and m_row totals
+  for (int i = 0; i < m_size; i++)
   {
-    if (temp.m_row_totals[i] != m_row_totals[i] || temp.m_col_totals[i] != m_col_totals[i])//if totals arent equal, puzzle isnt solved
+    if ((temp.m_row_totals[i] != m_row_totals[i]) || (temp.m_col_totals[i] != m_col_totals[i]))
+    {
       test = false;
+    }
   }
-  cout<<temp;
   return test;
 }
 
