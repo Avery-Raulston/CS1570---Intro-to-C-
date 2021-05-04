@@ -38,18 +38,26 @@ int main()
       if (size_of_board < MIN_SIZE || size_of_board > MAX_SIZE)//if user doesnt give correct input, tell the user he/she is WRONG
         cout<<"WRONG!!"<<endl;
     }  while (size_of_board < MIN_SIZE || size_of_board > MAX_SIZE);
+
     skware board = size_of_board;
     soln = board;
     board.display_puzzle();
     cout<<"Here's your puzzle....solve it if you can!"<<endl;
+
     do//force user to say they want a solution
     {
-      cout<<"Wanna solution?(1 for yes): ";
+      cout<<"Wanna solution?(1 for yes, 0 for no): ";
       cin>>want_solution;
       if (!want_solution)//if user doesnt want a solution, tell them they do
         cout<<"WRONG!!!"<<endl;
     } while (!want_solution);
     board.solve();
+
+    if (board == soln)//let user know if generated solution is same as original solution
+      cout<<"Generated solution matches original solution."<<endl;
+    else
+      cout<<"Generated solution doesn't match original solution"<<endl;
+
     cout<<"Would you like to solve another magic_skware?(1 for yes, 0 for no) ";
     cin>>is_playing;
   }

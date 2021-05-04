@@ -27,7 +27,6 @@ skware :: skware(const short s)
       m_col_totals[j] += m_matrix[i][j];
     }
   }
-cout<<"short constructor called"<<endl;
 }
 
 skware :: ~skware()
@@ -91,7 +90,6 @@ skware & skware :: operator =(const skware & s)
         m_matrix[i][j] = s.m_matrix[i][j];
     }
   }
-  cout<<"copy assignment called"<<endl;
   return *this;
 }
 
